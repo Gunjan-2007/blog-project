@@ -41,6 +41,9 @@ def save_comment(data):
     with open('comments.json','w') as f:
         json.dump(data,f)
 
+@app.get('/')
+def root():
+    return {"message": "Blog Backend API is running"}
 @app.get('/user')
 def users():
     data=user_data()
