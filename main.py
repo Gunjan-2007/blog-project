@@ -14,6 +14,9 @@ class post(BaseModel):
 class comment(BaseModel):
    id:str
    comment:str
+class like(BaseModel):
+    user_id:str
+    post_id:str
     
 
 
@@ -41,6 +44,15 @@ def save_comment(data):
     with open('comments.json','w') as f:
         json.dump(data,f)
 
+def like_data():
+    with open('likes.json','r')as f:
+        likedata=json.load(f)
+        return likedata
+def save_like(data):
+    with open('likes.json','w') as f:
+        json.dump(data,f)
+
+
 @app.get('/')
 def root():
     return {"message": "Blog Backend API is running"}
@@ -49,14 +61,60 @@ def users():
     data=user_data()
     return data
 
+@app.get("/user/{user_id}")
+def get_user(user_id:str):
+    data=user_data()
+    if user_id not in data:
+        raise HTTPException(status_code=404,detail='User not found')
+    return {
+        "id":user_id,
+        **data[user_id]
+    }
+
+
 @app.get('/post')
 def posts():
     data=post_data()
     return data
-@app.get('/comments')
+
+@app.get('/post/{post_id}')
+def get_post(post_id:str):
+    data=post_data()
+    if post_id not in data:
+        raise HTTPException(status_code=404,detail="post not found")
+    return{
+        "id":post_id,
+        **data[post_id]
+    }
+@app.get('/comment')
 def comments():
     data=comment_data()
     return data
+@app.get('/comment/{comment_id}')
+def get_comment(comment_id:str):
+    data=comment_data()
+    if comment_id not in data:
+        raise HTTPException(status_code=404,detail="Comment not found") 
+    return{
+        "id":comment_id,
+        **data[comment_id]
+    }
+@app.get('/likes')
+def likes():
+    data = like_data()
+    return data
+@app.get('/likes/{like_id}')
+def get_like(like_id: str):
+    data = like_data()
+
+    if like_id not in data:
+        raise HTTPException(status_code=404, detail="Like not found")
+
+    return {
+        "id": like_id,
+        **data[like_id]
+    }
+
 
 
 @app.post('/cruser')
@@ -84,9 +142,22 @@ def create_comment(comment:comment):
     data=comment_data()
     if comment.id in data:
         raise HTTPException(status_code=400,detail="User already exist")
-    data[comment.id]=post.model_dump(exclude=['id'])
+    data[comment.id]=comment.model_dump(exclude=['id'])
     save_comment(data)
 
     return JSONResponse(status_code=201,content={"Message":'Comment send successfully'})
+
+@app.post('/crlike')
+def create_like(like:like):
+    data=like_data()
+    like_id=str(len(data)+1)
+    data[like_id]=like.model_dump()
+    save_like(data)
+    return{
+        "id":like_id,
+        **data[like_id]
+    }
+
+
 
 
