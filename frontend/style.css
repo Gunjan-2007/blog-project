@@ -42,3 +42,7 @@ button {
     padding: 10px 15px;
     cursor: pointer;
 }
+#posts{
+    color: black;
+    overflow: auto;
+}
