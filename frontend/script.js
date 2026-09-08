@@ -75,7 +75,13 @@ showpost.addEventListener("click",()=>{
     .then(data=>{
         
         for(let id in data){
-            postdisplay.innerText+=data[id].post +"\n";
+            //postdisplay.innerText+=data[id].post +"\n";
+            let postDiv=document.createElement('div');
+            postDiv.innerText=data[id].post;
+            let likeButton=document.createElement("button");
+            likeButton.innerText='like';
+            postDiv.appendChild(likeButton);
+            postdisplay.appendChild(postDiv);
         }
         
     })
