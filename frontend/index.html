@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>My Blog</h1>
+
+    <div class="container">
+
+        <section>
+            <h2>Create User</h2>
+
+            <input type="text" id="userId" placeholder="User ID">
+            <input type="text" id="userName" placeholder="Name">
+            <input type="email" id="userEmail" placeholder="Email">
+
+            <button id="createUserBtn">Create User</button>
+        </section>
+
+        <section>
+            <h2>Create Post</h2>
+
+            <input type="text" id="postId" placeholder="Post ID">
+            <textarea id="postContent" placeholder="Write your post"></textarea>
+
+            <button id="createPostBtn">Create Post</button>
+        </section>
+
+        <section>
+            <h2>Posts</h2>
+
+            <button id="getPostsBtn">Show Posts</button>
+
+            <div id="posts"></div>
+        </section>
+
+    </div>
+     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
